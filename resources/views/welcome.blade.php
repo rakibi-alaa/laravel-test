@@ -7,31 +7,30 @@
 @section('content')
     <div class="row mt-4  card">
         <div class="col-12 card-body">
-            <form>
+            <form method="POST" action="{{ route('homeFilter') }}">
+              @csrf
                 <div class="form-row">
                     <div class="col">
-                        <select class="form-control" id="exampleFormControlSelect1">
-                          <option>Secteur</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
+                        <select name="sector" class="form-control" id="exampleFormControlSelect1">
+                          <option value=" ">Choisir secteur</option>
+                          @foreach ($sectors as $sector)
+                            <option value="{{$sector->id}}" {{ $selectedSector == $sector->id ? 'selected' : '' }}>{{$sector->sector}}</option>
+                          @endforeach
                         </select>
                       </div>
                   <div class="col">
-                    <select class="form-control" id="exampleFormControlSelect1">
-                      <option>Niveau d'études</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
+                    <select name="level" class="form-control" id="exampleFormControlSelect1">
+                      <option value=" ">Choisir niveau d'études</option>
+                      @foreach ($educationLevels as $educationlevel)
+                            <option value="{{$educationlevel->id}}" {{ $selectedLevel == $educationlevel->id ? 'selected' : ''  }}>{{$educationlevel->level}}</option>
+                          @endforeach
                     </select>
                   </div>
                   <div class="col">
-                    <input type="text" class="form-control" placeholder="Localisation">
+                    <input type="text" name="localisation" value="{{$selectedLocalisation}}" class="form-control" placeholder="Localisation">
                   </div>
                   <div class="col" >
-                    <button type="button" class="btn btn-outline-info ">Search</button>
+                    <button type="submit" class="btn btn-outline-info ">Search</button>
                 </div>
                 </div>
                 
@@ -45,15 +44,20 @@
             <h2>Annonces</h2>
         </div>
         <div class="col-8">
-            <div class="card" style="width:100%">
-                <div class="card-body">
-                  <h6 class="card-title">Card title bvhkdbv dkvbsdhbvds kdsvbdsbv vhdvbsdv kvbdvb vkdvbsdvbv dkvbdskhvdsvhkdbvds vdkvbskd vsdkbvsv sdkvbsdv k</h6>
-                  <p class="card-text">Niveau d'études : </p>
-                  <p class="card-text">Localisation : </p>
-                  <p class="card-text">Mis en ligne : </p>
-                  <a href="#" class="card-link">Postuler maintenant</a>
-                </div>
+          @foreach ($offers as $offer)
+            <div class="card" style="width:100%;margin-bottom:10px;">
+              <div class="card-body">
+                <h6 class="card-title">{{$offer->title}}</h6>
+                <p class="card-text">Niveau d'études : {{$offer->sector->sector}}</p>
+                <p class="card-text">Localisation : {{$offer->localisation}}</p>
+                <p class="card-text">Mis en ligne : {{$offer->created_at->format('d/m/Y H:i')}} </p>
+                <form method="POST" action="{{ route("offerApplication",['id' => $offer->id])}}">
+                  @csrf
+                  <button type="submit" class="btn btn-primary">Postuler maintenant</button>
+                </form>
+              </div>
             </div>
+          @endforeach
         </div>
         
     </div>

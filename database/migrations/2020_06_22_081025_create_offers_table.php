@@ -19,10 +19,12 @@ class CreateOffersTable extends Migration
             $table->string('title');
             $table->unsignedBigInteger('sector_id');
             $table->unsignedBigInteger('education_level_id');
+            $table->unsignedBigInteger('company_id');
             $table->string('localisation');
             $table->timestamp('expires_in');
             $table->foreign('sector_id')->references('id')->on('sectors');
             $table->foreign('education_level_id')->references('id')->on('education_levels');
+            $table->foreign('company_id')->references('id')->on('companies');
             $table->timestamps();
         });
     }

@@ -23,4 +23,7 @@ Route::get('/login', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+Route::post('/', 'HomeController@filter')->name('homeFilter');
+Route::post('/apply/{id}', 'HomeController@apply')->name('offerApplication');
+//Route::get('/', 'OffersController@index');

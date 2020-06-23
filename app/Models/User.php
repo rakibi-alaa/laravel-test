@@ -39,4 +39,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [];
+
+    public function applications()
+    {
+        return $this->belongsToMany(Offer::class,'user_applications','user_id','offer_id');
+    }
 }
